@@ -5,6 +5,7 @@ import ru.job4j.dreamjob.model.Post;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class PostStore {
@@ -25,6 +26,13 @@ public class PostStore {
 
     public Collection<Post> findAll() {
         return posts.values();
+    }
+
+    public void add(Post post) {
+        Optional<Integer> lastIdx = posts.keySet().stream().max(Integer::compareTo);
+        post.setId(lastIdx.map(integer -> integer + 1).orElse(1));
+        post.setCreated(LocalDateTime.now());
+        posts.put(post.getId(), post);
     }
 
 }
