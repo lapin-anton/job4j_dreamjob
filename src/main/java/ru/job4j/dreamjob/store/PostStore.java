@@ -41,6 +41,7 @@ public class PostStore {
     }
 
     public void update(Post post) {
-        posts.put(post.getId(), post);
+        post.setCreated(LocalDateTime.now());
+        posts.replace(post.getId(), post);
     }
 }
