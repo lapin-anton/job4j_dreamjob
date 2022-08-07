@@ -36,4 +36,11 @@ public class PostStore {
         posts.put(post.getId(), post);
     }
 
+    public Post findById(int id) {
+        return posts.get(id);
+    }
+
+    public void update(Post post) {
+        posts.put(post.getId(), post);
+    }
 }
