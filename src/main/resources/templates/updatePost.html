@@ -39,7 +39,7 @@
                         Редактирование вакансии.
                     </div>
                     <div class="card-body">
-                        <form th:action="@{/updatePost}" method="POST" th:object="${post}">
+                        <form th:action="@{/updatePost}" method="POST" th:object="${candidate}">
                             <input type="hidden" name="id" th:field="*{id}"/>
                             <div class="form-group">
                                 <label for="name">Имя</label>

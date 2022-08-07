@@ -37,8 +37,11 @@ public class CandidateStore {
     }
 
     public void update(Candidate candidate) {
+        candidate.setCreated(LocalDateTime.now());
+        candidates.replace(candidate.getId(), candidate);
     }
 
     public Object findById(int id) {
+        return candidates.get(id);
     }
 }
