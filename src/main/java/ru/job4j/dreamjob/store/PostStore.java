@@ -1,5 +1,6 @@
 package ru.job4j.dreamjob.store;
 
+import org.springframework.stereotype.Repository;
 import ru.job4j.dreamjob.model.Post;
 
 import java.time.LocalDateTime;
@@ -8,9 +9,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Repository
 public class PostStore {
-
-    private static final PostStore INST = new PostStore();
 
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
 
@@ -20,10 +20,6 @@ public class PostStore {
         add(new Post(1, "Junior Java Job", "Easy to work", LocalDateTime.now()));
         add(new Post(2, "Middle Java Job", "Very easy to work", LocalDateTime.now()));
         add(new Post(3, "Senior Java Job", "Best job on the Earth", LocalDateTime.now()));
-    }
-
-    public static PostStore instOf() {
-        return INST;
     }
 
     public Collection<Post> findAll() {
