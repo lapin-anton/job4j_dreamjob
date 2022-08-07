@@ -8,9 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import ru.job4j.dreamjob.model.Post;
 import ru.job4j.dreamjob.store.PostStore;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Optional;
-
 @Controller
 public class PostControl {
 

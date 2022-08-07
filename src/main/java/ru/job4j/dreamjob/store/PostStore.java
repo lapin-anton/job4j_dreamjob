@@ -5,8 +5,8 @@ import ru.job4j.dreamjob.model.Post;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class PostStore {
 
@@ -14,10 +14,12 @@ public class PostStore {
 
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
 
+    private final AtomicInteger id = new AtomicInteger();
+
     private PostStore() {
-        posts.put(1, new Post(1, "Junior Java Job", "Easy to work", LocalDateTime.now()));
-        posts.put(2, new Post(2, "Middle Java Job", "Very easy to work", LocalDateTime.now()));
-        posts.put(3, new Post(3, "Senior Java Job", "Best job on the Earth", LocalDateTime.now()));
+        add(new Post(1, "Junior Java Job", "Easy to work", LocalDateTime.now()));
+        add(new Post(2, "Middle Java Job", "Very easy to work", LocalDateTime.now()));
+        add(new Post(3, "Senior Java Job", "Best job on the Earth", LocalDateTime.now()));
     }
 
     public static PostStore instOf() {
@@ -29,8 +31,7 @@ public class PostStore {
     }
 
     public void add(Post post) {
-        Optional<Integer> lastIdx = posts.keySet().stream().max(Integer::compareTo);
-        post.setId(lastIdx.map(integer -> integer + 1).orElse(1));
+        post.setId(id.incrementAndGet());
         post.setCreated(LocalDateTime.now());
         posts.put(post.getId(), post);
     }
