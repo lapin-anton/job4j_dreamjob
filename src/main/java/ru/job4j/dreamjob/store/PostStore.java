@@ -19,9 +19,9 @@ public class PostStore {
     private final AtomicInteger id = new AtomicInteger();
 
     private PostStore() {
-        add(new Post(1, "Junior Java Job", "Easy to work", LocalDateTime.now()));
-        add(new Post(2, "Middle Java Job", "Very easy to work", LocalDateTime.now()));
-        add(new Post(3, "Senior Java Job", "Best job on the Earth", LocalDateTime.now()));
+        add(new Post(1, "Junior Java Job", "Easy to work", LocalDateTime.now(), true));
+        add(new Post(2, "Middle Java Job", "Very easy to work", LocalDateTime.now(), true));
+        add(new Post(3, "Senior Java Job", "Best job on the Earth", LocalDateTime.now(), true));
     }
 
     public Collection<Post> findAll() {
