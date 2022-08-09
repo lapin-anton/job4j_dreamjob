@@ -47,6 +47,7 @@
             <tr th:each="candidate: ${candidates}">
                 <td th:text="${candidate.id}" />
                 <td>
+                    <img th:width="150" th:high="150" th:src="@{|/photoCandidate/${candidate.id}|}">
                     <a th:href="@{|/formUpdateCandidate/${candidate.id}|}">
                         <i class="fa fa-edit"></i>
                     </a>
