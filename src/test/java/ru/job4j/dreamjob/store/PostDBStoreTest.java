@@ -1,19 +1,59 @@
 package ru.job4j.dreamjob.store;
 
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import ru.job4j.dreamjob.Main;
 import ru.job4j.dreamjob.model.City;
 import ru.job4j.dreamjob.model.Post;
 
 
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.is;
 
 public class PostDBStoreTest {
+
+    private static Connection connection;
+
+    @BeforeClass
+    public static void initConnection() {
+        try (InputStream in = PostDBStoreTest.class.getClassLoader().getResourceAsStream("db.properties")) {
+            Properties config = new Properties();
+            config.load(in);
+            Class.forName(config.getProperty("jdbc.driver"));
+            connection = DriverManager.getConnection(
+                    config.getProperty("jdbc.url"),
+                    config.getProperty("jdbc.username"),
+                    config.getProperty("jdbc.password")
+
+            );
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    @AfterClass
+    public static void closeConnection() throws SQLException {
+        connection.close();
+    }
+
+    @After
+    public void wipeTable() throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement("delete from post")) {
+            statement.execute();
+        }
+    }
 
     @Test
     public void whenCreatePost() {

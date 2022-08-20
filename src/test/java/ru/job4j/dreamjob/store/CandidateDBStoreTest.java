@@ -1,17 +1,54 @@
 package ru.job4j.dreamjob.store;
 
-import org.junit.Test;
+import org.junit.*;
 import ru.job4j.dreamjob.Main;
 import ru.job4j.dreamjob.model.Candidate;
 
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 public class CandidateDBStoreTest {
+
+    private static Connection connection;
+
+    @BeforeClass
+    public static void initConnection() {
+        try (InputStream in = CandidateDBStoreTest.class.getClassLoader().getResourceAsStream("db.properties")) {
+            Properties config = new Properties();
+            config.load(in);
+            Class.forName(config.getProperty("jdbc.driver"));
+            connection = DriverManager.getConnection(
+                    config.getProperty("jdbc.url"),
+                    config.getProperty("jdbc.username"),
+                    config.getProperty("jdbc.password")
+
+            );
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    @AfterClass
+    public static void closeConnection() throws SQLException {
+        connection.close();
+    }
+
+    @After
+    public void wipeTable() throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement("delete from candidate")) {
+            statement.execute();
+        }
+    }
     
     @Test
     public void whenCreateCandidate() {
