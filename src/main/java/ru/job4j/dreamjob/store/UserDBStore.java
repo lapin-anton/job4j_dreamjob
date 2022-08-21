@@ -4,6 +4,8 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+import ru.job4j.dreamjob.model.City;
+import ru.job4j.dreamjob.model.Post;
 import ru.job4j.dreamjob.model.User;
 
 import java.sql.Connection;
@@ -43,5 +45,26 @@ public class UserDBStore {
             rsl = Optional.empty();
         }
         return rsl;
+    }
+
+    public Optional<User> findUserByEmailAndPwd(String email, String password) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM users WHERE email = ? AND password = ?")
+        ) {
+            ps.setString(1, email);
+            ps.setString(2, password);
+            try (ResultSet it = ps.executeQuery()) {
+                if (it.next()) {
+                    return Optional.of(new User(
+                            it.getInt("id"),
+                            it.getString("email"),
+                            it.getString("password"))
+                    );
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Exception during execution: ", e);
+        }
+        return Optional.empty();
     }
 }
