@@ -1,5 +1,5 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
     <head>
         <!-- Required meta tags -->
         <meta charset="utf-8">
@@ -14,9 +14,8 @@
                 integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
                 integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-        <title>Работа мечты!</title>
+        <title>Работа мечты</title>
     </head>
     <body>
         <div class="container">
@@ -28,47 +27,35 @@
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
                         <a class="nav-item nav-link" th:href="@{/}">Главная</a>
-                        <a class="nav-item nav-link active" th:href="@{/posts}">Вакансии <span class="sr-only">(current)</span></a>
+                        <a class="nav-item nav-link" th:href="@{/posts}">Вакансии</a>
                         <a class="nav-item nav-link" th:href="@{/formAddPost}">Добавить вакансию</a>
                         <a class="nav-item nav-link" th:href="@{/candidates}">Кандидаты</a>
                         <a class="nav-item nav-link" th:href="@{/formAddCandidate}">Добавить кандидата</a>
-                        <a class="nav-item nav-link" th:href="@{/formAddUser}">Зарегистрироваться</a>
+                        <a class="nav-item nav-link active" th:href="@{/formAddUser}">Зарегистрироваться <span class="sr-only">(current)</span></a>
                     </div>
                 </div>
             </nav>
             <div class="row">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Название</th>
-                        <th scope="col">Город</th>
-                        <th scope="col">Описание</th>
-                        <th scope="col">Дата создания</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="post: ${posts}">
-                        <td th:text="${post.id}" />
-                        <td>
-                            <a th:href="@{|/formUpdatePost/${post.id}|}">
-                                <i class="fa fa-edit"></i>
-                            </a>
-                            <span th:text="${post.name}"></span>
-                            <span th:if="${post.visible}">
-                                <i class="fa fa-check-square-o"></i>
-                            </span>
-                            <span th:if="${!post.visible}">
-                                <i class="fa fa-square-o"></i>
-                            </span>
-                        </td>
-                        <td th:text="${post.city.name}"/>
-                        <td th:text="${post.description}" />
-                        <td th:text="${post.created}" />
-                    </tr>
-                    </tbody>
-                </table>
+                <div class="card" style="width: 100%">
+                    <div class="card-header">
+                        Регистрация нового пользователя
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/registration}" method="POST">
+                            <div class="form-group">
+                                <input type="hidden" name="id" value="0" />
+                                <label>Электронная почта
+                                    <input type="text" class="form-control" name="email" id="email">
+                                </label><br/>
+                                <label>Пароль
+                                    <input type="password" class="form-control" name="password" id="password">
+                                </label>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Регистрация</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-        </div>
+    </div>
     </body>
 </html>
