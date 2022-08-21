@@ -51,8 +51,10 @@ public class UserControl {
     }
 
     @GetMapping("/formAddUser")
-    public String addUser(Model model) {
-        model.addAttribute("user", new User(0, "Укажите имя адрес эл. почты",
+    public String addUser(Model model, HttpSession session) {
+        User user = getUser(session);
+        model.addAttribute("user", user);
+        model.addAttribute("newUser", new User(0, "Укажите имя адрес эл. почты",
                 "Укажите пароль"));
         return "addUser";
     }
@@ -67,14 +69,27 @@ public class UserControl {
     }
 
     @GetMapping("/fail")
-    public String fail(Model model) {
+    public String fail(Model model, HttpSession session) {
+        User user = getUser(session);
+        model.addAttribute("user", user);
         model.addAttribute("message", "Пользователь с такой почтой уже существует");
         return "fail";
     }
 
     @GetMapping("/success")
-    public String success() {
+    public String success(Model model, HttpSession session) {
+        User user = getUser(session);
+        model.addAttribute("user", user);
         return "success";
+    }
+
+    private User getUser(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            user = new User();
+            user.setEmail("Гость");
+        }
+        return user;
     }
 
 }
