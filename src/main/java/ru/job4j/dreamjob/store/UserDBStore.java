@@ -25,7 +25,7 @@ public class UserDBStore {
     }
 
     public Optional<User> add(User user) {
-        Optional<User> rsl Optional.empty();
+        Optional<User> rsl = Optional.empty();
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement(
                      "INSERT INTO users(email, password) VALUES (?, ?)",
