@@ -54,7 +54,7 @@ public class UserControl {
     public String addUser(Model model, HttpSession session) {
         User user = getUser(session);
         model.addAttribute("user", user);
-        model.addAttribute("newUser", new User(0, "Укажите имя адрес эл. почты",
+        model.addAttribute("newUser", new User(0, "Укажите имя", "Укажите адрес эл. почты",
                 "Укажите пароль"));
         return "addUser";
     }

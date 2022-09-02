@@ -5,14 +5,16 @@ import java.util.Objects;
 public class User {
 
     private int id;
+    private String name;
     private String email;
     private String password;
 
     public User() {
     }
 
-    public User(int id, String email, String password) {
+    public User(int id, String name, String email, String password) {
         this.id = id;
+        this.name = name;
         this.email = email;
         this.password = password;
     }
@@ -23,6 +25,14 @@ public class User {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
